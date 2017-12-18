@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <div class="page-main white">
+                <div class="post-content" itemscope="" itemtype="http://schema.org/NewsArticle">
+                    
+                    
+                    
+                    <div class="header-post center ">
+                        <h1 class="heading-title-large" itemprop="headline">Gulp cho người mới bắt đầu</h1>
+                        
+                    </div>
+
+                    <div class="main-post ">
+                        <article class="content">
+                            
+
+<h2>Gulp là gì?</h2>
+
+<p><a href="http://gulpjs.com/" target="_blank">Gulp</a> là một công cụ giúp bạn tự động hóa nhiều task (nhiệm vụ) trong quá trình phát triển web. Nó thường được sử dụng để làm các tác vụ front end như:</p>
+
+<ul>
+  <li>Tạo ra một web server</li>
+  <li>Reload&nbsp;trình duyệt một cách tự động bất cứ khi nào một file được lưu</li>
+  <li>Sử dụng các preprocessor giống như Sass hoặc LESS</li>
+  <li>Tối ưu hóa các tài nguyên như CSS, JavaScript và hình ảnh</li>
+</ul>
+
+<p>Đây không phải là một danh sách toàn diện về những thứ mà Gulp có thể làm. Nếu muốn, bạn có thể tạo một generator web site tĩnh.&nbsp;Gulp cực kỳ mạnh mẽ, nhưng bạn cần học cách sử dụng Gulp nếu muốn tạo ra một quá &nbsp;trình (process) của riêng mình.</p>
+
+<p>Bài viết này sẽ giúp bạn có những kiến thức cơ bản về Gulp sau đó bạn có thể tự mình khám phá mọi thứ.</p>
+
+<p>Trước khi đi sâu vào Gulp, hãy nói về lý do <em>tại sao</em> bạn sử dụng Gulp mà không phải các công cụ khác.</p>
+
+<h2>Tại sao lại là Gulp?</h2>
+
+<p>Những công cụ như Gulp thường được đề cập như là "build tools" bởi vì chúng là những công cụ thực hiện các task trong quá trình xây dựng một website. Hai build tools phổ biến nhất hiện giờ là Gulp và Grunt. Tất nhiên, vẫn có những công cụ khác chẳng hạn như <a href="https://github.com/broccolijs/broccoli" target="_blank">Broccoli</a>, <a href="http://brunch.io/" target="_blank">Brunch</a>.</p>
+
+<p>Có nhiều bài viết đề cập tới sự khác nhau giữa Grunt và Gulp và lý do tại sao bạn lại sử dụng công cụ này mà không phải là các công cụ khác. Nhưng điểm khác biệt chính là cách bạn cấu hình một workflow với chúng. Gulp&nbsp;cấu hình ngắn hơn và đơn giản hơn khi so sánh với Grunt. Gulp cũng chạy nhanh hơn.</p>
+
+<h2>Cái chúng ta sẽ làm</h2>
+
+<p>Khi kết thúc bài viết này, bạn sẽ có một workflow thực hiện các task sau:</p>
+
+<ul>
+  <li>Tạo ra một web server</li>
+  <li>Biên dịch Sass thành CSS</li>
+  <li>Refesh trình duyệt tự động bất cứ khi nào bạn lưu một file</li>
+  <li>Tối ưu hóa các tài nguyên (CSS, JS, fonts, và hình ảnh) cho phiên bản&nbsp;production</li>
+</ul>
+
+<p>Bạn cũng sẽ học cách nối một chuỗi các task khác nhau vào một&nbsp;lệnh đơn giản.</p>
+
+<p>Hãy bắt đầu bằng cách cài đặt Gulp trên máy tính của bạn.</p>
+
+<h2>Cài đặt Gulp</h2>
+
+<p>Bạn cần cài đặt&nbsp;<a href="https://nodejs.org/en/" target="_blank">Node.js</a> trước khi có thể cài đặt&nbsp;Gulp.</p>
+
+<p>Sau khi đã cài đặt Node, bạn có thể cài đặt Gulp bằng cách sử dụng lệnh sau:</p>
+
+<pre><code class="language-bash hljs ruby"><span class="hljs-variable">$ </span>sudo npm install gulp -g</code></pre>
+
+<p><em>Chú ý: chỉ những người sử dụng Mac mới cần sử dụng từ khóa <strong>sudo</strong></em></p>
+
+<p><span class="marker" style="background-color:#ff0">npm install</span> là&nbsp;lệnh sử dụng Node Package Manager &nbsp;(npm) để cài đặt Gulp trên máy tính của bạn.</p>
+
+<p>Cờ <span class="marker" style="background-color:#ff0">-g</span> trong lệnh này nói với npm cài Gulp với phạm vi toàn cục trên máy tính của bạn, nó cho phép sử dụng lệnh <span class="marker" style="background-color:#ff0">gulp</span> ở bất kỳ đâu trên hệ thống của bạn.</p>
+
+<p>Bây giờ Gulp đã được cài đặt, hãy tạo ra một dự án sử dụng Gulp.</p>
+
+<h2>Tạo một Gulp project</h2>
+
+<p>Đầu tiên, chúng ta sẽ tạo ra một thư mục <span class="marker" style="background-color:#ff0">project</span>. Đây sẽ là thư mục gốc của dự án. Di chuyển vào thư mục <span class="marker" style="background-color:#ff0">project</span> và chạy lệnh <span class="marker" style="background-color:#ff0">npm init</span>:</p>
+
+<pre><code class="language-bash hljs ruby"><span class="hljs-comment"># ... from within our project folder</span>
+<span class="hljs-variable">$ </span>npm init</code></pre>
+
+<p>Lệnh <span class="marker" style="background-color:#ff0">npm init</span> sẽ tạo ra một file <span class="marker" style="background-color:#ff0">package.json</span> lưu trữ các thông tin về project, như các <em>dependencies</em> được sử dụng trong dự án (Gulp là một dependency).</p>
+
+<p><span class="marker" style="background-color:#ff0">npm init</span>&nbsp;sẽ yêu cầu bạn xác nhận:</p>
+
+<p style="text-align:center"><img alt="" src="images/npm-init.png" style="max-width:100%"></p>
+
+<p>Khi file package.json đã được tạo, chúng ta có thể cài đặt Gulp vào dự án bằng cách sử dụng lệnh:</p>
+
+<pre><code class="language-bash hljs sql">$ npm <span class="hljs-operator"><span class="hljs-keyword">install</span> gulp <span class="hljs-comment">--save-dev</span></span></code></pre>
+
+<p>Lệnh này sẽ cài đặt Gulp vào project của bạn thay vì cài đặt toàn cục.</p>
+
+<p>Cờ <span class="marker" style="background-color:#ff0">--save-dev</span>&nbsp;sẽ thêm <span class="marker" style="background-color:#ff0">gulp</span> như một dev dependency trong <span class="marker" style="background-color:#ff0">package.json</span>.</p>
+
+<p style="text-align:center"><img alt="" src="images/package-json.png" style="max-width:100%"></p>
+
+<p>Nếu kiểm tra thư mục <span class="marker" style="background-color:#ff0">project</span> khi lệnh đã thực thi xong, bạn sẽ thấy có thêm thư mục <span class="marker" style="background-color:#ff0">node_modules</span>. Bạn cũng nhìn thấy thư mục <span class="marker" style="background-color:#ff0">gulp</span> trong <span class="marker" style="background-color:#ff0">node_modules</span>.</p>
+
+<p style="text-align:center"><img alt="" src="images/node-modules.png" style="max-width:100%"></p>
+
+<p>Chúng ta gần như đã sẵn sàng để bắt đầu làm việc với Gulp. Nhưng trước khi làm điều đó, chúng ta cần xác định cách chúng ta sử dụng Gulp cho project, và một phần trong đó là chọn một cấu trúc thư mục.</p>
+
+<h2>Chọn cấu trúc thư mục</h2>
+
+<p>Gulp đủ linh hoạt để làm việc với mọi cấu trúc thư mục. Trong bài viết này, chúng ta sẽ sử dụng một cấu trúc thường thấy:</p>
+
+<pre><code class="hljs java"> |- app/
+      |- css/
+      |- fonts/
+      |- images/ 
+      |- index.html
+      |- js/ 
+      |- scss/
+  |- dist/
+  |- gulpfile.js
+  |- node_modules/
+  |- <span class="hljs-keyword">package</span>.json</code></pre>
+
+<p>Trong cấu trúc này, chúng ta sẽ sử dụng thư mục <span class="marker" style="background-color:#ff0">app</span> cho mục đích phát triển, trong khi thư mục <span class="marker" style="background-color:#ff0">dist</span> (distribution) được sử dụng để chứa các file đã được tối ưu cho web site production.</p>
+
+<p>Bây giờ, hãy bắt đầu bằng cách tạo ra Gulp task đầu tiên của bạn trong <span class="marker" style="background-color:#ff0">gulpfile.js</span>, cái lưu trữ tất cả cấu hình của Gulp.</p>
+
+<h2>Viết Gulp task đầu tiên</h2>
+
+<p>Bước đầu tiên để sử dụng Gulp là <span class="marker" style="background-color:#ff0">require</span> trong gulpfile.</p>
+
+<pre><code class="language-javascript hljs"><span class="hljs-keyword">var</span> gulp = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp'</span>);</code></pre>
+
+<p>Câu lệnh require nói với Node tìm kiếm trong thư mục <span class="marker" style="background-color:#ff0">node_modules</span> package có tên <span class="marker" style="background-color:#ff0">gulp</span>. Khi package được tìm thấy, chúng ta gán nội dung tới biến <span class="marker" style="background-color:#ff0">gulp</span>.</p>
+
+<p>Bây giờ chúng ta có thể viết một gulp task. Cú pháp cơ bản như sau:</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'task-name'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-comment">// Stuff here</span>
+});</code></pre>
+
+<p><span class="marker" style="background-color:#ff0">task-name</span> là tên của task, cái sử&nbsp;dụng khi bạn muốn chạy một task trong Gulp. Bạn cũng có thể chạy task đó trong command line bằng lệnh <span class="marker" style="background-color:#ff0">gulp task-name</span>.</p>
+
+<p>Để kiểm tra, tạo một task &nbsp;<span class="marker" style="background-color:#ff0">hello</span>, cái in ra <span class="marker" style="background-color:#ff0">"Hello Zell"</span>.</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'hello'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Hello Zell'</span>);
+});</code></pre>
+
+<p>Chúng ta có thể chạy task với lệnh <span class="marker" style="background-color:#ff0">gulp hello</span>.</p>
+
+<pre><code class="language-bash hljs ruby"><span class="hljs-variable">$ </span>gulp hello</code></pre>
+
+<p>Lệnh trên sẽ in ra <span class="marker" style="background-color:#ff0">"Hello Zell"</span>.</p>
+
+<p style="text-align:center"><img alt="" src="images/hello.png" style="max-width:100%"></p>
+
+<p>Thực tế, các Gulp task sẽ phức tạp hơn một chút. Nó thường chứa hơn 2 phương thức Gulp, cộng với nhiều plugin của Gulp.</p>
+
+<p>Một task thực sự sẽ giống như thế này:</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'task-name'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+  <span class="hljs-keyword">return</span> gulp.src(<span class="hljs-string">'source-files'</span>) <span class="hljs-comment">// Get source files with gulp.src</span>
+    .pipe(aGulpPlugin()) <span class="hljs-comment">// Sends it through a gulp plugin</span>
+    .pipe(gulp.dest(<span class="hljs-string">'destination'</span>)) <span class="hljs-comment">// Outputs the file in the destination folder</span>
+})</code></pre>
+
+<p><span class="marker" style="background-color:#ff0">gulp.src</span> nói với Gulp task các file được sử dụng, trong khi <span class="marker" style="background-color:#ff0">gulp.dest</span> nói với Gulp nơi chứa các file kết quả khi task hoàn tất.</p>
+
+<p>Hãy thử xây dựng một task thực sự, biên dịch các file Sass thành CSS.</p>
+
+<h2>Preprocessing với Gulp</h2>
+
+<p>Chúng ta có thể biên dịch Sass thành CSS trong Gulp với plugin <a href="https://www.npmjs.com/package/gulp-sass" target="_blank">gulp-sass</a>. Bạn có thể cài đặt với lệnh <span class="marker" style="background-color:#ff0">npm install</span> như đã làm với gulp.</p>
+
+<p>Chúng ta cũng thêm cờ <span class="marker" style="background-color:#ff0">--save-dev</span> để đảm bảo gulp-sass được thêm vào <span class="marker" style="background-color:#ff0">devDependencies</span> trong <span class="marker" style="background-color:#ff0">package.json</span>.</p>
+
+<pre><code class="language-bash hljs sql">$ npm <span class="hljs-operator"><span class="hljs-keyword">install</span> gulp-sass <span class="hljs-comment">--save-dev</span>
+</span></code></pre>
+
+<p>Chúng ta cũng cần <span class="marker" style="background-color:#ff0">require</span> gulp-sass như đã làm với <span class="marker" style="background-color:#ff0">gulp</span> trước khi có thể sử dụng:</p>
+
+<pre><code class="language-javascript hljs"><span class="hljs-keyword">var</span> gulp = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp'</span>);
+<span class="hljs-comment">// Requires the gulp-sass plugin</span>
+<span class="hljs-keyword">var</span> sass = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-sass'</span>);</code></pre>
+
+<p>Chúng ta có thể sử dụng gulp-sass bằng cách thay thế aGulpPlugin() với sass(). Chúng ta sẽ đặt tên task biên dịch&nbsp;Sass thành CSS là <span class="marker" style="background-color:#ff0">sass</span>.</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'sass'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{
+  <span class="hljs-keyword">return</span> gulp.src(<span class="hljs-string">'source-files'</span>)
+    .pipe(sass()) <span class="hljs-comment">// Using gulp-sass</span>
+    .pipe(gulp.dest(<span class="hljs-string">'destination'</span>))
+});</code></pre>
+
+<p>Chúng cần cung cấp cho task <span class="marker" style="background-color:#ff0">sass</span> các file nguồn và một thư mục đích để chứa các file CSS, vì thế hãy tạo một file <span class="marker" style="background-color:#ff0">styles.scss</span> trong thư mục <span class="marker" style="background-color:#ff0">app/scss</span>. Đây là file thay thế cho <span class="marker" style="background-color:#ff0">source-files</span> trong phương thức&nbsp;<span class="marker" style="background-color:#ff0">gulp.src</span>.</p>
+
+<p>Chúng ta cũng muốn lưu file kết quả <span class="marker" style="background-color:#ff0">styles.css</span> tới&nbsp;thư mục <span class="marker" style="background-color:#ff0">app/css</span>, thay thế <span class="marker" style="background-color:#ff0">destination</span>&nbsp;trong phương thức <span class="marker" style="background-color:#ff0">gulp.dest</span> với <span class="marker" style="background-color:#ff0">app/css</span>.</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'sass'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{
+  <span class="hljs-keyword">return</span> gulp.src(<span class="hljs-string">'app/scss/styles.scss'</span>)
+    .pipe(sass()) <span class="hljs-comment">// Converts Sass to CSS with gulp-sass</span>
+    .pipe(gulp.dest(<span class="hljs-string">'app/css'</span>))
+});</code></pre>
+
+<p>Bạn có thể kiểm tra&nbsp;task <span class="marker" style="background-color:#ff0">sass</span> đã làm việc chính xác chưa bằng cách thêm một hàm Sass trong file <span class="marker" style="background-color:#ff0">styles.scss</span>.</p>
+
+<pre><code class="language-css hljs">// <span class="hljs-tag">styles</span><span class="hljs-class">.scss</span>
+<span class="hljs-class">.testing</span> <span class="hljs-rules">{
+  <span class="hljs-rule"><span class="hljs-attribute">width</span>:<span class="hljs-value"> <span class="hljs-function">percentage</span>(<span class="hljs-number">5</span>/<span class="hljs-number">7</span>)</span></span>;
+<span class="hljs-rule">}</span></span></code></pre>
+
+<p>Nếu chạy gulp sass trong command line, bạn sẽ thấy file&nbsp;<span class="marker" style="background-color:#ff0">styles.css</span> trong thư mục <span class="marker" style="background-color:#ff0">app/css</span>. Ngoài ra, nó sẽ có nội dung như sau:</p>
+
+<pre><code class="language-css hljs"><span class="hljs-comment">/* styles.css */</span>
+<span class="hljs-class">.testing</span> <span class="hljs-rules">{
+  <span class="hljs-rule"><span class="hljs-attribute">width</span>:<span class="hljs-value"> <span class="hljs-number">71.42857%</span></span></span>; 
+<span class="hljs-rule">}</span></span></code></pre>
+
+<p>Đó là cách chúng ta kiểm tra&nbsp;task <span class="marker" style="background-color:#ff0">sass</span> đã làm việc hay chưa.</p>
+
+<p>Thỉnh thoảng chúng ta cần&nbsp;biên dịch nhiều hơn một file <span class="marker" style="background-color:#ff0">.scss</span> thành CSS. Chúng ta có thể làm điều này với Node globs.</p>
+
+<h2>Globbing trong Node</h2>
+
+<p>Globs giống như regular expressions, nhưng dành riêng cho đường dẫn file.</p>
+
+<p>Hầu hết các workflow với Gulp thường chỉ yêu cầu 4 globbing pattern sau:</p>
+
+<ol>
+  <li>*.scss: * là ký tự đại diện có nghĩa phù hợp với mọi pattern trong thư mục hiện tại. Trong trường hợp này, là tất cả&nbsp;file kết thúc với .scss trong thư mục gốc (project).</li>
+  <li>**/*.scss: Tất cả các&nbsp;file kết thúc với .scss trong thư mục root và các&nbsp;thư mục con.</li>
+  <li>!not-me.scss: ! báo hiệu Gulp sẽ bỏ qua pattern phù hợp. Trong trường hợp này file not-me.scss sẽ được bỏ qua.</li>
+  <li>*.+(scss|sass): Dấu + và () cho phép Gulp kết hợp nhiều pattern, các pattern khác nhau được ngăn cách bởi ký tự | .Trong trường hợp này là bất kỳ file kết thúc với .scss hoặc .sass trong thư mục gốc.</li>
+</ol>
+
+<p>Khi biết globbing, chúng ta có thể thay thế <span class="marker" style="background-color:#ff0">app/scss/styles.scss</span> với pattern&nbsp;<span class="marker" style="background-color:#ff0">scss/**/*.scss</span>, nó sẽ lấy bất kỳ file nào có phần mở rộng <span class="marker" style="background-color:#ff0">.scss</span> trong thư mục <span class="marker" style="background-color:#ff0">app/scss</span> hoặc trong&nbsp;thư mục con.</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'sass'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-keyword">return</span> gulp.src(<span class="hljs-string">'app/scss/**/*.scss'</span>) <span class="hljs-comment">// Gets all files ending with .scss in app/scss and children dirs</span>
+    .pipe(sass())
+    .pipe(gulp.dest(<span class="hljs-string">'app/css'</span>))
+})</code></pre>
+
+<p>Mọi file Sass được tìm thấy trong app/scss sẽ tự động thêm vào task <span class="marker" style="background-color:#ff0">sass</span>&nbsp;ở trên. Nếu bạn thêm một file print.scss tới project, bạn sẽ thấy print.css trong app/css.</p>
+
+<p style="text-align:center"><img alt="" src="images/second-stylesheet.png" style="max-width:100%"></p>
+
+<p>Hiện giờ chúng đã quản lý được việc biên dịch các file Sass thành CSS với một lệnh duy nhất. Câu hỏi là, chúng ta sẽ phải chạy lệnh gulp sass bất cứ khi nào chúng ta thay đổi file sass để biên dịch Sass thành CSS?</p>
+
+<p>May mắn, chúng ta có thể nói với Gulp tự động chạy task sass bất cứ khi nào một file được lưu thông qua một process gọi là "watching".</p>
+
+<h2>Theo dõi sự thay đổi của các file Sass</h2>
+
+<p>Gulp cung cấp cho chúng ta phương thức watch, cái theo dõi nếu một file được lưu. Cú pháp của watch là:</p>
+
+<pre><code class="language-javascript hljs"><span class="hljs-comment">// Gulp watch syntax</span>
+gulp.watch(<span class="hljs-string">'files-to-watch'</span>, [<span class="hljs-string">'tasks'</span>, <span class="hljs-string">'to'</span>, <span class="hljs-string">'run'</span>]); </code></pre>
+
+<p>Nếu chúng ta muốn theo dõi tất cả các file Sass và chạy task sass bất cứ khi nào một file Sass được lưu, chúng ta chỉ cần thay thế <span class="marker" style="background-color:#ff0">files-to-watch</span> với <span class="marker" style="background-color:#ff0">app/scss/**/*.scss</span>, và <span class="marker" style="background-color:#ff0">['tasks', 'to', 'run']</span> với <span class="marker" style="background-color:#ff0">['sass']</span>:</p>
+
+<pre><code class="language-javascript hljs"><span class="hljs-comment">// Gulp watch syntax</span>
+gulp.watch(<span class="hljs-string">'app/scss/**/*.scss'</span>, [<span class="hljs-string">'sass'</span>]); </code></pre>
+
+<p>Trong thực tế, chúng ta sẽ muốn theo dõi nhiều kiểu file một lúc. Để làm điều này, chúng ta có thể gộp nhiều tiến trình theo dõi&nbsp;vào một task <span class="marker" style="background-color:#ff0">watch</span>:</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'watch'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{
+  gulp.watch(<span class="hljs-string">'app/scss/**/*.scss'</span>, [<span class="hljs-string">'sass'</span>]); 
+  <span class="hljs-comment">// Other watchers</span>
+})</code></pre>
+
+<p>Nếu bạn chạy lệnh<span class="marker" style="background-color:#ff0"> gulp watch</span>, bạn sẽ thấy Gulp bắt đầu theo dõi ngay lập tức.</p>
+
+<p style="text-align:center"><img alt="" src="images/gulp-watch-start.png" style="max-width:100%"></p>
+
+<p>Và nó sẽ tự động chạy task <span class="marker" style="background-color:#ff0">sass</span> bất cứ khi nào bạn lưu một file <span class="marker" style="background-color:#ff0">.scss</span></p>
+
+<p>Bước tiếp theo là làm cho Gulp reload lại trình duyệt bất cứ khi nào chúng ta lưu một file .scss với sự trợ giúp của <a href="https://browsersync.io/">Browser Sync</a>.</p>
+
+<h2>Live-reloading với Browser Sync</h2>
+
+<p>Browser Sync giúp việc phát triển web dễ dàng hơn bằng cách tạo ra một web server cái giúp chúng ta live-reloading dễ dàng.&nbsp;</p>
+
+<p>Đầu tiên chúng sẽ cài đặt Browser Sync:</p>
+
+<pre><code class="language-javascript hljs">$ npm install browser-sync --save-dev</code></pre>
+
+<p>Bạn có thể để ý rằng không có tiền tố <span class="marker" style="background-color:#ff0">gulp-</span> khi cài đặt Browser Sync. Bởi vì Browser Sync không phải là một plugin của Gulp.</p>
+
+<p>Để sử dụng, chúng ta sẽ require Browser Sync.</p>
+
+<pre><code class="language-javascript hljs"><span class="hljs-keyword">var</span> browserSync = <span class="hljs-built_in">require</span>(<span class="hljs-string">'browser-sync'</span>).create();</code></pre>
+
+<p>Chúng ta cần tạo task <span class="marker" style="background-color:#ff0">browserSync</span> để cho phép Gulp khởi tạo một server sử dụng Browser Sync. Khi chạy server, chúng ta cần cho Browser Sync biết thư mục gốc của server. Trong trường hợp này, nó là thư mục "app":</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'browserSync'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+  browserSync.init({
+    server: {
+      baseDir: <span class="hljs-string">'app'</span>
+    },
+  })
+})</code></pre>
+
+<p>Chúng ta cũng thay đổi task <span class="marker" style="background-color:#ff0">sass</span> một chút vì Browser Sync có thể tiêm các style CSS mới (cập nhật CSS) vào trình duyệt, bất cứ khi nào task <span class="marker" style="background-color:#ff0">sass</span> chạy.</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'sass'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-keyword">return</span> gulp.src(<span class="hljs-string">'app/scss/**/*.scss'</span>) <span class="hljs-comment">// Gets all files ending with .scss in app/scss</span>
+    .pipe(sass())
+    .pipe(gulp.dest(<span class="hljs-string">'app/css'</span>))
+    .pipe(browserSync.reload({
+      stream: <span class="hljs-literal">true</span>
+    }))
+});</code></pre>
+
+<p>Chúng ta đã cấu hình Browser Sync. Bây giờ chúng ta chạy cả 2 task <span class="marker" style="background-color:#ff0">watch</span> và <span class="marker" style="background-color:#ff0">browserSync</span> cùng lúc để live-reloading.</p>
+
+<p>Khá phiền phức khi mở 2 của sổ command line và chạy <span class="marker" style="background-color:#ff0">gulp browserSync</span> và <span class="marker" style="background-color:#ff0">gulp watch</span>, hãy để Gulp chạy chúng đồng thời bằng cách nói cho task <span class="marker" style="background-color:#ff0">watch</span> rằng <span class="marker" style="background-color:#ff0">browserSync</span> phải hoàn thành trước khi <span class="marker" style="background-color:#ff0">watch</span> được cho phép chạy.</p>
+
+<p>Chúng ta có thể làm điều này bằng cách thêm tham số thứ 2 tới <span class="marker" style="background-color:#ff0">watch</span> task. Đây là cú pháp:</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'watch'</span>, [<span class="hljs-string">'array'</span>, <span class="hljs-string">'of'</span>, <span class="hljs-string">'tasks'</span>, <span class="hljs-string">'to'</span>, <span class="hljs-string">'complete'</span>,<span class="hljs-string">'before'</span>, <span class="hljs-string">'watch'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span></span>{
+  <span class="hljs-comment">// ...</span>
+})</code></pre>
+
+<p>Và trong trường hợp này chúng ta thêm <span class="marker" style="background-color:#ff0">browserSync</span> task.</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'watch'</span>, [<span class="hljs-string">'browserSync'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span></span>{
+  gulp.watch(<span class="hljs-string">'app/scss/**/*.scss'</span>, [<span class="hljs-string">'sass'</span>]); 
+  <span class="hljs-comment">// Other watchers</span>
+})</code></pre>
+
+<p>Chúng ta cũng muốn đảm bảo rằng <span class="marker" style="background-color:#ff0">sass</span> sẽ chạy trước <span class="marker" style="background-color:#ff0">watch</span> vì CSS sẽ luôn là mới nhất bất kỳ khi nào chúng ta chạy một lệnh Gulp.</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'watch'</span>, [<span class="hljs-string">'browserSync'</span>, <span class="hljs-string">'sass'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span></span>{
+  gulp.watch(<span class="hljs-string">'app/scss/**/*.scss'</span>, [<span class="hljs-string">'sass'</span>]); 
+  <span class="hljs-comment">// Other watchers</span>
+});</code></pre>
+
+<p>Bây giờ nếu bạn chạy <span class="marker" style="background-color:#ff0">gulp watch</span> trong command line, Gulp sẽ bắt đầu cả 2 <span class="marker" style="background-color:#ff0">sass</span> và <span class="marker" style="background-color:#ff0">browserSync</span> task đồng thời. Khi cả 2 task hoàn thành, <span class="marker" style="background-color:#ff0">watch</span> sẽ chạy.</p>
+
+<p style="text-align:center"><img alt="" src="images/bs-watch.png" style="max-width:100%"></p>
+
+<p>Tại cùng thời điểm, một cửa sổ trình duyệt sẽ trỏ đến app/index.html sẽ bật lên. Nếu bạn thay đổi file styles.scss, bạn sẽ thấy trình duyệt sẽ tự động reload.</p>
+
+<p>Cuối cùng, làm thế nào nếu bạn muốn trình duyệt tự động reload khi&nbsp;bất kỳ file HTML hoặc JavaScript được lưu?</p>
+
+<p>Chúng ta có thể làm bằng cách thêm 2 hoặc nhiều hơn các tiến trình theo dõi, và gọi hàm browserSync.reload khi một file được lưu:</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'watch'</span>, [<span class="hljs-string">'browserSync'</span>, <span class="hljs-string">'sass'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span></span>{
+  gulp.watch(<span class="hljs-string">'app/scss/**/*.scss'</span>, [<span class="hljs-string">'sass'</span>]); 
+  <span class="hljs-comment">// Reloads the browser whenever HTML or JS files change</span>
+  gulp.watch(<span class="hljs-string">'app/*.html'</span>, browserSync.reload); 
+  gulp.watch(<span class="hljs-string">'app/js/**/*.js'</span>, browserSync.reload); 
+});</code></pre>
+
+<p>Đến đây chúng ta đã làm 3 thứ:</p>
+
+<ol>
+  <li>Khởi tạo một web server&nbsp;</li>
+  <li>Sử dụng Sass preprocessor</li>
+  <li>Reloading trình duyệt tự động bất cứ khi nào một file được lưu</li>
+</ol>
+
+<p>Phần tiếp theo sẽ đề cập tới việc tối ưu các tài nguyên. Chúng ta sẽ bắt đầu với việc tối ưu hóa các file CSS và JavaScript.</p>
+
+<h2>Tối ưu hóa các file CSS và JavaScript</h2>
+
+<p>Các lập trình viên có 2 task cần thực hiện khi cố gắng tối ưu hóa các file CSS và JavaScript cho phiên bản production: nối file và minification.</p>
+
+<p>Một vấn đề các lập trình viên phải đối mặt là khó có thể&nbsp;nối các file js theo thứ tự chính xác.</p>
+
+<p>Ví dụ&nbsp;chúng ta có 3 thẻ script trong file index.html.</p>
+
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- other stuff --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"js/lib/a-library.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"js/lib/another-library.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"js/main.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span></code></pre>
+
+<p>Các script này nằm trong 2 thư mục khác nhau. Rất khó để nối chúng với những plugin kiểu như&nbsp;<a href="https://www.npmjs.com/package/gulp-concat" target="_blank">gulp-concatenate</a>.</p>
+
+<p>Thật may mắn, chúng ta có thể sử dụng <a href="https://www.npmjs.com/package/gulp-useref" target="_blank">gulp-useref</a> để giải quyết vấn đề này.</p>
+
+<p>Gulp-useref nối tất cả&nbsp;file CSS và JavaScript thành một file bằng cách tìm kiếm một comment bắt đầu với <span class="marker" style="background-color:#ff0">"&lt;!--build:"</span> và kết thúc với <span class="marker" style="background-color:#ff0">"&lt;!-- endbuild --&gt;"</span>. Giống như thế này:</p>
+
+<pre><code class="language-html hljs xml"><span class="hljs-comment">&lt;!-- build:&lt;type&gt; &lt;path&gt; --&gt;</span>
+... HTML Markup, list of script / link tags.
+<span class="hljs-comment">&lt;!-- endbuild --&gt;</span></code></pre>
+
+<p><span class="marker" style="background-color:#ff0">&lt;type&gt;</span> có thể là <span class="marker" style="background-color:#ff0">js, css</span> hoặc <span class="marker" style="background-color:#ff0">remove</span>. Thường thì type sẽ là kiểu file chúng ta muốn nối. Nếu bạn thiết lập type là <span class="marker" style="background-color:#ff0">remove</span> Gulp sẽ xóa toàn bộ block mà không phát sinh một file nào.</p>
+
+<p><span class="marker" style="background-color:#ff0">&lt;path&gt;</span> là đường dẫn tới file đã được nối.</p>
+
+<p>Ở đây, chúng ta muốn file JavaScript đã được nối sẽ nằm trong thư mục <span class="marker" style="background-color:#ff0">js</span> và có tên là <span class="marker" style="background-color:#ff0">main.min.js</span>. Cú pháp sẽ như sau:</p>
+
+<pre><code class="language-html hljs xml"><span class="hljs-comment">&lt;!--build:js js/main.min.js --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"js/lib/a-library.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"js/lib/another-library.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"js/main.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- endbuild --&gt;</span></code></pre>
+
+<p>Bây giờ hãy cấu hình gulp-useref plugin trong gulpfile. Chúng sẽ cần cài đặt và require trước.</p>
+
+<pre><code class="language-bash hljs sql">$ npm <span class="hljs-operator"><span class="hljs-keyword">install</span> gulp-useref <span class="hljs-comment">--save-dev</span></span></code></pre>
+
+<pre><code class="language-javascript hljs"><span class="hljs-keyword">var</span> useref = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-useref'</span>);</code></pre>
+
+<p>Thiết lập task&nbsp;<span class="marker" style="background-color:#ff0">useref</span>&nbsp;tương tự như các task chúng ta đã làm:</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'useref'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{
+  <span class="hljs-keyword">return</span> gulp.src(<span class="hljs-string">'app/*.html'</span>)
+    .pipe(useref())
+    .pipe(gulp.dest(<span class="hljs-string">'dist'</span>))
+});</code></pre>
+
+<p>Bây giờ nếu bạn chạy task&nbsp;<span class="marker" style="background-color:#ff0">useref</span>, Gulp sẽ đọc các file trong 3 thẻ script và nối chúng thành thành một file <span class="marker" style="background-color:#ff0">main.min.js</span> trong thư mục <span class="marker" style="background-color:#ff0">dist/js</span></p>
+
+<p style="text-align:center"><img alt="" src="images/main-min.png" style="max-width:100%"></p>
+
+<p>Tuy nhiên file kết quả chưa được minify. Chúng ta sẽ sử dụng <a href="https://www.npmjs.com/package/gulp-uglify" target="_blank">gulp-uglify</a> plugin để minifying các file JavaScript. Chúng ta cũng cần một plugin thứ 2 gọi là <a href="https://github.com/robrich/gulp-if" target="_blank">gulp-if</a> để đảm bảo chỉ minify các file JavaScript.</p>
+
+<pre><code class="language-javascript hljs">$ npm install gulp-uglify --save-dev </code></pre>
+
+<pre><code class="language-javascript hljs"><span class="hljs-comment">// Other requires...</span>
+<span class="hljs-keyword">var</span> uglify = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-uglify'</span>);
+<span class="hljs-keyword">var</span> gulpIf = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-if'</span>);
+
+gulp.task(<span class="hljs-string">'useref'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{
+  <span class="hljs-keyword">return</span> gulp.src(<span class="hljs-string">'app/*.html'</span>)
+    .pipe(useref())
+    <span class="hljs-comment">// Minifies only if it's a JavaScript file</span>
+    .pipe(gulpIf(<span class="hljs-string">'*.js'</span>, uglify()))
+    .pipe(gulp.dest(<span class="hljs-string">'dist'</span>))
+});</code></pre>
+
+<p>Gulp sẽ tự động minify "main.min.js" bất cứ khi nào bạn chạy <span class="marker" style="background-color:#ff0">useref</span> task.</p>
+
+<p>Gulp-useref cũng sẽ tự động thay thế tất cả các thẻ script trong "&lt;!--&nbsp;build:" và "&lt;!-- endbuild --&gt; thành một thẻ duy nhất trỏ tới "js/main.min.js".</p>
+
+<p style="text-align:center"><img alt="" src="images/useref-html.png" style="max-width:100%"></p>
+
+<p>Chúng ta có thể sử dụng phương thức tương tự để nối các file CSS (nếu bạn có nhiều hơn một file). Chúng ta sẽ làm theo tiến trình tương tự như nối các file js và thêm một <span class="marker" style="background-color:#ff0">build</span> comment.</p>
+
+<pre><code class="language-html hljs xml"><span class="hljs-comment">&lt;!--build:css css/styles.min.css--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"css/styles.css"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"css/another-stylesheet.css"</span>&gt;</span>
+<span class="hljs-comment">&lt;!--endbuild--&gt;</span></code></pre>
+
+<p>Để minify file CSS đã được nối. Chúng ta cần sử dụng package <a href="https://www.npmjs.com/package/gulp-cssnano" target="_blank">gulp-cssnano</a>.</p>
+
+<pre><code class="language-bash hljs ruby"><span class="hljs-variable">$ </span>npm install gulp-cssnano</code></pre>
+
+<pre><code class="language-javascript hljs"><span class="hljs-keyword">var</span> cssnano = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-cssnano'</span>);
+
+gulp.task(<span class="hljs-string">'useref'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{
+  <span class="hljs-keyword">return</span> gulp.src(<span class="hljs-string">'app/*.html'</span>)
+    .pipe(useref())
+    .pipe(gulpIf(<span class="hljs-string">'*.js'</span>, uglify()))
+    <span class="hljs-comment">// Minifies only if it's a CSS file</span>
+    .pipe(gulpIf(<span class="hljs-string">'*.css'</span>, cssnano()))
+    .pipe(gulp.dest(<span class="hljs-string">'dist'</span>))
+});</code></pre>
+
+<p>Bây giờ chúng ta đã tối ưu hóa các file CSS và JavaScript bất kì khi nào bạn chạy <span class="marker" style="background-color:#ff0">useref</span> task.</p>
+
+<p>Tiếp theo hãy tối ưu hình ảnh</p>
+
+<h2>Tối ưu hóa ảnh</h2>
+
+<p>Chúng ta sẽ cần sử dụng <a href="https://www.npmjs.com/package/gulp-imagemin" target="_blank">gulp-imagemin</a> để tối ưu hóa hình ảnh.</p>
+
+<pre><code class="language-bash hljs sql">$ npm <span class="hljs-operator"><span class="hljs-keyword">install</span> gulp-imagemin <span class="hljs-comment">--save-dev</span></span></code></pre>
+
+<pre><code class="language-javascript hljs"><span class="hljs-keyword">var</span> imagemin = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-imagemin'</span>);</code></pre>
+
+<p>Chúng ta có thể tối ưu hóa ảnh <span class="marker" style="background-color:#ff0">png</span>, <span class="marker" style="background-color:#ff0">jpg</span>, <span class="marker" style="background-color:#ff0">gif</span> và thậm chí là <span class="marker" style="background-color:#ff0">svg</span> với gulp-imagemin. Hãy tạo một images task.</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'images'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{
+  <span class="hljs-keyword">return</span> gulp.src(<span class="hljs-string">'app/images/**/*.+(png|jpg|gif|svg)'</span>)
+  .pipe(imagemin())
+  .pipe(gulp.dest(<span class="hljs-string">'dist/images'</span>))
+});</code></pre>
+
+<p>Các kiểu file khác nhau có thể tối ưu hóa theo nhiều cách, bạn có thể thêm tùy chọn imagemin để tối ưu từng loại file.</p>
+
+<p>Ví dụ, bạn có thể tạo <a href="http://vesta.astro.amu.edu.pl/Library/WWW/Tutorial1/graphics/gif_files.html" target="_blank">interlaced</a> GIFs bằng cách thiết lập tùy chọn <span class="marker" style="background-color:#ff0">interlaced</span> là <span class="marker" style="background-color:#ff0">true</span>.</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'images'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{
+  <span class="hljs-keyword">return</span> gulp.src(<span class="hljs-string">'app/images/**/*.+(png|jpg|jpeg|gif|svg)'</span>)
+  .pipe(imagemin({
+      <span class="hljs-comment">// Setting interlaced to true</span>
+      interlaced: <span class="hljs-literal">true</span>
+    }))
+  .pipe(gulp.dest(<span class="hljs-string">'dist/images'</span>))
+});</code></pre>
+
+<p>Bạn có thể thử nghiệm các tùy chọn khác nếu muốn.</p>
+
+<p>Tuy nhiên tối ưu hóa các hình ảnh, là một tiến trình cực kỳ chậm bạn sẽ không muốn lặp lại trừ khi cần thiết. Để làm điều này chúng ta có thể sử dụng <a href="https://www.npmjs.com/package/gulp-cache" target="_blank">gulp-cache</a> plugin.</p>
+
+<pre><code class="language-bash hljs sql">$ npm <span class="hljs-operator"><span class="hljs-keyword">install</span> gulp-<span class="hljs-keyword">cache</span> <span class="hljs-comment">--save-dev</span></span></code></pre>
+
+<pre><code class="language-javascript hljs"><span class="hljs-keyword">var</span> cache = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-cache'</span>);
+
+gulp.task(<span class="hljs-string">'images'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{
+  <span class="hljs-keyword">return</span> gulp.src(<span class="hljs-string">'app/images/**/*.+(png|jpg|jpeg|gif|svg)'</span>)
+  <span class="hljs-comment">// Caching images that ran through imagemin</span>
+  .pipe(cache(imagemin({
+      interlaced: <span class="hljs-literal">true</span>
+    })))
+  .pipe(gulp.dest(<span class="hljs-string">'dist/images'</span>))
+});</code></pre>
+
+<p>Chúng ta đã gần hoàn thành quá trình tối ưu hóa. Chỉ còn một thư mục chúng ta cần chuyển từ thư mục "app" tới thư mục "dist", đó là thư mục fonts. Hãy làm điều đó ngay.</p>
+
+<h2>Copy Fonts&nbsp;tới Dist</h2>
+
+<p>Các file font đã được tối ưu hóa, vì vậy chúng ta không cần làm gì thêm. Tất cả những gì chúng ta cần làm là copy các font tới thư mục dist.</p>
+
+<p>Chúng ta có thể copy các file với Gulp đơn giản bằng cách sử dụng <span class="marker" style="background-color:#ff0">gulp.src</span> và <span class="marker" style="background-color:#ff0">gulp.dest</span> mà không cần plugin nào.</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'fonts'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-keyword">return</span> gulp.src(<span class="hljs-string">'app/fonts/**/*'</span>)
+  .pipe(gulp.dest(<span class="hljs-string">'dist/fonts'</span>))
+})</code></pre>
+
+<p>Bây giờ Gulp sẽ copy các font từ thư mục "app" tới "dist" bất kỳ khi nào bạn chạy <span class="marker" style="background-color:#ff0">gulp fonts</span>.</p>
+
+<p style="text-align:center"><img alt="" src="images/font-copy.png" style="max-width:100%"></p>
+
+<p>Chúng ta đã có 6 task khác nhau trong gulpfile, và mỗi task được gọi&nbsp;riêng rẽ trong command line, điều này khá phiền phức và chúng ta muốn gộp tất cả với trong một lệnh.</p>
+
+<p>Trước khi làm điều này, chúng ta hãy xem cách xóa các file đã phát sinh một cách tự động.</p>
+
+<h2>Tự động xóa các file đã tạo ra</h2>
+
+<p>Khi tạo ra các file một cách tự động, chúng ta sẽ muốn đảm bảo rằng các file không còn sử dụng sẽ không tồn tại ở bất kỳ đâu mà chúng ta không biết.</p>
+
+<p>Quá trình được gọi làm sạch (cleaning)&nbsp;(hay đơn giản là xóa các file)</p>
+
+<p>Chúng ta sử dụng <a href="https://www.npmjs.com/package/del" target="_blank">del</a> để làm điều này.</p>
+
+<pre><code class="language-bash hljs sql">npm <span class="hljs-operator"><span class="hljs-keyword">install</span> del <span class="hljs-comment">--save-dev</span></span></code></pre>
+
+<pre><code class="language-javascript hljs"><span class="hljs-keyword">var</span> del = <span class="hljs-built_in">require</span>(<span class="hljs-string">'del'</span>);</code></pre>
+
+<p>Hàm del nhận một mảng node globs cái nói với nó thư mục nào cần xóa.</p>
+
+<p>Thiết lập giống như <span class="marker" style="background-color:#ff0">hello</span> task trong ví dụ đầu tiên.</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'clean:dist'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-keyword">return</span> del.sync(<span class="hljs-string">'dist'</span>);
+})
+</code></pre>
+
+<p>Bây giờ Gulp sẽ xóa&nbsp;thư mục "dist" bất kỳ khi nào lệnh <span class="marker" style="background-color:#ff0">gulp clean:dist</span> chạy.</p>
+
+<p><em>Chú ý: Chúng ta không cần lo lắng về việc xóa thư mục dist/images bởi vì gulp-cache đã lưu ảnh trên hệ thống local của bạn.</em></p>
+
+<p>Để xóa cache trên hệ thống local, bạn có thể tạo một task tên là "cache:clear".</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'cache:clear'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(callback)</span> </span>{
+    <span class="hljs-keyword">return</span> cache.clearAll(callback)
+})</code></pre>
+
+<p>Bây giờ hãy kết hợp các task với nhau!</p>
+
+<h2>Kết hợp các Gulp tasks</h2>
+
+<p>Hãy tổng kết cái chúng ta đã làm. Chúng ta đã tạo ra 2 tập hợp các Gulp task.</p>
+
+<p>Đầu tiên là cho quá trình phát triển, chúng ta biên dịch Sass thành CSS, theo dõi sự thay đổi và reload lại trình duyệt khi có sự thay đổi.</p>
+
+<p>Thứ 2 là quá trình tối ưu, nơi chúng ta chuẩn bị các file cho một website hoàn chỉnh. Chúng ta tối ưu hóa CSS, JavaScript, và hình ảnh trong tiến trình này và copy các font từ thư mục <span class="marker" style="background-color:#ff0">app</span> tới thư mục <span class="marker" style="background-color:#ff0">dist</span>.</p>
+
+<p>Chúng ta đã gộp tập hợp các task đầu tiên vào một một lệnh <span class="marker" style="background-color:#ff0">gulp watch</span>:</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'watch'</span>, [<span class="hljs-string">'browserSync'</span>, <span class="hljs-string">'sass'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span></span>{
+  <span class="hljs-comment">// ... watchers</span>
+})</code></pre>
+
+<p>Tập hợp thứ 2 gồm các task chúng ta cần chạy để tạo ra một website hoàn chỉnh. Nó gồm: <span class="marker" style="background-color:#ff0">clean:dist</span>, <span class="marker" style="background-color:#ff0">sass</span>, <span class="marker" style="background-color:#ff0">useref</span>, <span class="marker" style="background-color:#ff0">images</span> và <span class="marker" style="background-color:#ff0">fonts</span>. Chúng ta sẽ tạo ra một task&nbsp;<span class="marker" style="background-color:#ff0">build</span>&nbsp;để kết hợp mọi thứ cùng nhau.</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'build'</span>, [`clean`, `sass`, `useref`, `images`, `fonts`], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span></span>{
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Building files'</span>);
+})</code></pre>
+
+<p>Thật không may, chúng ta không thể viết task&nbsp;build theo cách này bởi vì Gulp chạy tất cả các task trong tham số thứ 2 đồng thời.</p>
+
+<p>Nghĩa là <span class="marker" style="background-color:#ff0">useref</span>, <span class="marker" style="background-color:#ff0">images</span>, hoặc thậm chí là <span class="marker" style="background-color:#ff0">fonts</span> sẽ hoàn thành trước khi <span class="marker" style="background-color:#ff0">clean</span> kết thúc, và toàn bộ thư mục <span class="marker" style="background-color:#ff0">dist</span> sẽ bị xóa.</p>
+
+<p>Vì vậy, cần đảm bảo <span class="marker" style="background-color:#ff0">clean</span> hoàn thành trước các task còn lại, chúng ta cần sử dụng một plugin là <a href="https://www.npmjs.com/package/run-sequence" target="_blank">run-sequence</a>.</p>
+
+<pre><code class="language-javascript hljs">$ npm install run-sequence --save-dev</code></pre>
+
+<p>Đây là cú pháp để chạy các task tuần tự</p>
+
+<pre><code class="language-javascript hljs"><span class="hljs-keyword">var</span> runSequence = <span class="hljs-built_in">require</span>(<span class="hljs-string">'run-sequence'</span>);
+
+gulp.task(<span class="hljs-string">'task-name'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> </span>{
+  runSequence(<span class="hljs-string">'task-one'</span>, <span class="hljs-string">'task-two'</span>, <span class="hljs-string">'task-three'</span>, callback);
+});</code></pre>
+
+<p>Khi task-name được gọi, Gulp sẽ chạy task-one đầu tiên, Khi task-one kết thúc, Gulp sẽ tự động bắt đầu task-two. Cuối cùng, khi task-two hoàn thành, Gulp sẽ chạy task-three.</p>
+
+<p>run-sequence cũng cho phép chạy các task đồng thời nếu bạn đặt chúng trong một mảng:</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'task-name'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> </span>{
+  runSequence(<span class="hljs-string">'task-one'</span>, [<span class="hljs-string">'tasks'</span>,<span class="hljs-string">'two'</span>,<span class="hljs-string">'run'</span>,<span class="hljs-string">'in'</span>,<span class="hljs-string">'parallel'</span>], <span class="hljs-string">'task-three'</span>, callback);
+});</code></pre>
+
+<p>Trong trường hợp này, Gulp sẽ chạy task-one. Khi task-one hoàn thành, Gulp sẽ chạy tất cả các task còn lại trong mảng tham số thứ 2 đồng thời. Tất cả các task trong tham số thứ 2 phải hoàn thành trước khi task-three có thể chạy.</p>
+
+<p>Bây giờ chúng ta sẽ tạo ra một task cái đảm bảo clean:dist chạy đầu tiên, sau đó là các task khác:</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'build'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(callback)</span> </span>{
+  runSequence(<span class="hljs-string">'clean:dist'</span>, 
+    [<span class="hljs-string">'sass'</span>, <span class="hljs-string">'useref'</span>, <span class="hljs-string">'images'</span>, <span class="hljs-string">'fonts'</span>],
+    callback
+  )
+})</code></pre>
+
+<p>Để tạo sự thống nhất, chúng ta có thể xây dựng một chuỗi tuần tự với group đầu tiên. Lần này hãy sử dụng <span class="marker" style="background-color:#ff0">default</span> cho tên task:</p>
+
+<pre><code class="language-javascript hljs">gulp.task(<span class="hljs-string">'default'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(callback)</span> </span>{
+  runSequence([<span class="hljs-string">'sass'</span>,<span class="hljs-string">'browserSync'</span>], <span class="hljs-string">'watch'</span>,
+    callback
+  )
+})</code></pre>
+
+<p>Tại sao lại là <span class="marker" style="background-color:#ff0">default</span>? Bởi vì khi bạn có một task tên là <span class="marker" style="background-color:#ff0">default</span>, bạn có thể chạy nó đơn giản bằng cách nhập lệnh <span class="marker" style="background-color:#ff0">gulp</span> trong command line.</p>
+
+<p>Cuối cùng, đây là <a href="https://github.com/zellwk/gulp-starter-csstricks" target="_blank">github repo</a> cho tất cả những thứ chúng ta đã làm!</p>
+
+<h2>Kết luận</h2>
+
+<p>Chúng ta đã học những thứ cơ bản nhất về Gulp và tạo một workflow, có khả năng biên dịch Sass thành CSS trong khi theo dõi sự thay đổi các file HTML và JS tại cùng thời điểm. Chúng ta có thể chạy task này với lệnh <span class="marker" style="background-color:#ff0">gulp</span> trong command line.</p>
+
+<p>Chúng ta cũng xây dựng một task thứ hai, <span class="marker" style="background-color:#ff0">build</span>, cái tạo ra thư mục <span class="marker" style="background-color:#ff0">dist</span> cho phiên bản production. Chúng ta biên dịch Sass thành CSS, tối ưu hóa tất cả các tài nguyên, và copy các thư mục cần thiết vào thư mục <span class="marker" style="background-color:#ff0">dist</span>. Để chạy task này chúng ta chỉ cần nhập <span class="marker" style="background-color:#ff0">gulp build</span> trong command line.</p>
+
+<p>Cuối cùng, chúng ta có một <span class="marker" style="background-color:#ff0">clean</span> task cái xóa thư mục <span class="marker" style="background-color:#ff0">dist.</span></p>
+
+<p>Chúng ta đã tạo ra một workflow có đủ khả năng đáp ứng cho hầu hết các web develper. Còn rất nhiều thứ về Gulp và workflow mà chúng ta có thể khám phá để làm cho quá&nbsp;trình này tốt hơn. Đây là một số gợi ý&nbsp;cho bạn:</p>
+
+<p>Cho phát triển:</p>
+
+<ul>
+  <li>Sử dụng <a href="https://www.npmjs.com/package/gulp-autoprefixer" target="_blank">Autoprefixer</a> để tự động thêm prefix&nbsp;vào code CSS</li>
+  <li>Thêm <a href="https://www.npmjs.com/package/gulp-sourcemaps" target="_blank">Sourcemaps</a> để dễ dàng debug hơn</li>
+  <li>Tạo ra Sprites với <a href="https://www.npmjs.com/package/sprity" target="_blank">sprity</a></li>
+  <li>Biên dịch chỉ các file có thay đổi với <a href="https://www.npmjs.com/package/gulp-changed" target="_blank">gulp-changed</a></li>
+  <li>Viết ES6 với&nbsp;<a href="https://www.npmjs.com/package/gulp-babel" target="_blank">Babel</a> hoặc&nbsp;<a href="https://www.npmjs.com/package/gulp-traceur" target="_blank">Traceur</a></li>
+  <li>Modular hóa các file JavaScript với <a href="http://browserify.org/" target="_blank">Browserify</a>, <a href="https://github.com/webpack/webpack" target="_blank">webpack</a>, hoặc <a href="https://github.com/jspm" target="_blank">jspm</a></li>
+  <li>Modular hóa HTML với các template engine như <a href="https://www.npmjs.com/package/gulp-handlebars" target="_blank">Handlebars</a> hoặc <a href="https://www.npmjs.com/package/gulp-swig" target="_blank">Swig</a></li>
+  <li>Chia gulpfile thành các file nhỏ hơn với <a href="https://www.npmjs.com/package/require-directory" target="_blank">require-dir</a></li>
+  <li>Phát sinh&nbsp;một Modernizr script tự động với <a href="https://www.npmjs.com/package/gulp-modernizr" target="_blank">gulp-modernizr</a></li>
+</ul>
+
+<p>Cho tối ưu hóa:</p>
+
+<ul>
+  <li>Xóa CSS không sử dụng với <a href="https://www.npmjs.com/package/gulp-uncss" target="_blank">unCSS</a></li>
+  <li>Tối ưu hóa CSS hơn nữa với <a href="https://www.npmjs.com/package/gulp-csso" target="_blank">CSSO</a></li>
+  <li>Phát sinh inline CSS với <a href="https://www.npmjs.com/package/critical" target="_blank">Critical</a></li>
+</ul>
+
+<p>Ngoài các quá trình phát triển và tối ưu hóa, bạn cũng có thể viết unit tests với&nbsp;<a href="https://www.npmjs.com/package/gulp-jasmine" target="_blank">gulp-jasmine</a> và thậm&nbsp;chí triển khai thư mục <span class="marker" style="background-color:#ff0">dist</span> tới productions server tự động với <a href="https://www.npmjs.com/package/gulp-rsync" target="_blank">gulp-rync</a>.</p>
+
+<p>&nbsp;</p>
+
+                        </article>
+                    </div>
+
+                    
+
+                    
+                        
+                            
+                        
+                    
+                </div>
+            </div>
+</body>
+</html>
